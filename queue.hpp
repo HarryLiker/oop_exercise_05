@@ -75,9 +75,9 @@ public:
 
         explicit QueueIterator(const std::shared_ptr<Node<T>> &another_iter): iterator(another_iter) {}
 
-        bool isNull() {
+        bool IsNull() {
             return iterator == nullptr;
-        } 
+        }
         
         friend void operator++(QueueIterator &iter) {
             ++iter.iterator;
@@ -99,54 +99,27 @@ public:
 
     Queue() noexcept: First(nullptr) {}
 
-    void Push(const T &value) {
+    void Push(const T &element) {
         
         if (Size == 0) {
-            Node<T> *new_node = new Node<T>(value);
+            Node<T> *new_node = new Node<T>(element);
             std::shared_ptr<Node<T>> new_pointer{new_node};
             Last = new_pointer;
             First = Last;
         }
         else if (Size == 1) {
-            Node<T> *new_node = new Node<T>(value);
+            Node<T> *new_node = new Node<T>(element);
             std::shared_ptr<Node<T>> new_pointer{new_node};
             First->Next = Last;
             Last->Next = new_pointer;
             Last = new_pointer;
         }
         else {
-            Node<T> *new_node = new Node<T>(value);
+            Node<T> *new_node = new Node<T>(element);
             std::shared_ptr<Node<T>> new_pointer{new_node};
             Last->Next = new_pointer;
             Last = new_pointer;
         }
-
-        //Last = new_pointer;
-        
-        
-        /*
-        Node<T> *new_node = new Node<T>(value);
-        std::shared_ptr<Node<T>> new_pointer{new_node};
-        new_pointer->Previous = Last;
-        Last = new_pointer; 
-
-        if (Size == 0) {
-            First = Last;
-        }
-        if (Size == 1) {
-            First->Next = Last;
-            Last->Previous = First;
-        } */
-        
-        
-        /*
-        std::shared_ptr<Node<T>> current_node = First;
-        while (current_node != nullptr) {
-            current_node = current_node->Next;
-        }
-        std::shared_ptr<Node<T>> new_pointer{new_node};
-        current_node = new_pointer;
-        */
         ++Size;
     }
 
@@ -173,9 +146,12 @@ public:
         std::unique_ptr<Node<T>> newNode {new Node<T>(elem)};
         std::shared_ptr<Node<T>> newPtr = std::move(newNode);
         std::shared_ptr<Node<T>> nextPtr = First;
-
-        if (nextPtr) {
-            if (!iter.isNull()) {
+        if (*iter == *First) {
+            newPtr->Next = First;
+            First = newPtr;
+        }
+        else if (nextPtr) {
+            if (!iter.IsNull()) {
                 while(*nextPtr->Next != *iter) {
                     ++nextPtr;
                 }
@@ -185,8 +161,14 @@ public:
                     ++nextPtr;
                 }
             }
-            newPtr->Next = nextPtr->Next;
-            nextPtr->Next = newPtr;
+            if (nextPtr->Next == nullptr) {
+                nextPtr->Next = newPtr;
+                Last = newPtr;
+            }
+            else {
+                newPtr->Next = nextPtr->Next;
+                nextPtr->Next = newPtr;
+            }
         }
         else {
             First = newPtr;
@@ -195,7 +177,7 @@ public:
     }
 
     void Erase(QueueIterator &iter) {
-        if (iter.isNull()) {
+        if (iter.IsNull()) {
             throw std::runtime_error("Iterator is in nullptr state!\n");
         }
         else {

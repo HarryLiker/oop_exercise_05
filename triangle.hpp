@@ -24,12 +24,6 @@ struct Triangle {
 };
 
 template <class T>
-std::ostream& operator << (std::ostream& cout, const std::pair<T,T>& value) {
-    cout << "(" << value.first() << ", " << value.second << ")";
-    return cout;
-}
-
-template <class T>
 std::ostream& operator << (std::ostream& cout, const Triangle<T> &object) {
     double height = object.Side * sqrt(3) / 2.0;
     cout << "{";

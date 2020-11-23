@@ -11,7 +11,7 @@ int menu() {
         std::cout << "1 - Add figure in collection as queue\n";
         std::cout << "2 - Add figure in collection by index\n";
         std::cout <<"3 - Delete an element from the collection as from queue\n";
-        std::cout <<"4 - Delete an element from the collection as from queue\n";
+        std::cout <<"4 - Delete an element from the collection by index\n";
         std::cout << "5 - Print figures from the collection\n";
         std::cout << "6 - Print figures, with less quare\n";
         std::cout << "7 - End the program\n";
