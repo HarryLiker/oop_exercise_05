@@ -13,7 +13,7 @@ int menu() {
         std::cout <<"3 - Delete an element from the collection as from queue\n";
         std::cout <<"4 - Delete an element from the collection by index\n";
         std::cout << "5 - Print figures from the collection\n";
-        std::cout << "6 - Print figures, with less quare\n";
+        std::cout << "6 - Print figures, with less square\n";
         std::cout << "7 - End the program\n";
         std::cout << "Enter an action: ";
         std::cin >> variant;
@@ -44,6 +44,7 @@ int menu() {
             std::cin >> index;
             try {
                 if (queue.FindSize() + 1 < index) {
+                    // if the index is outside the collection or negative
                     throw std::invalid_argument("Entered the wrong index!\n");
                 }
                 else {
@@ -52,8 +53,10 @@ int menu() {
                         ++iterator;
                     }
                     queue.Insert(iterator, Triangle<int>(std::pair<int,int> {x, y}, side));
+                    std::cout << "The figure has been added\n";
                 }
             }
+            // If an excenpion occurs
             catch (std::invalid_argument &argument) {
                 std::terminate();
             }
@@ -62,6 +65,7 @@ int menu() {
         case 3:
         {
             queue.Pop();
+            std::cout << "The figure has been removed\n";
             break;
         }
         case 4:
@@ -75,6 +79,7 @@ int menu() {
                     ++iterator;
                 }
                 queue.Erase(iterator);
+                std::cout << "The figure has been removed\n";
             }
             catch (std::runtime_error &error) {
                 std::cout << error.what() << "\n";

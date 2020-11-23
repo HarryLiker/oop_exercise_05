@@ -9,13 +9,13 @@ struct Triangle {
     vertex_t Center;
     T Side;
 
-
     Triangle(const vertex_t &center, const T &side): Center(center), Side(side) {}
 
     double Square() const {
         return Side * Side * sqrt(3) / 4.0;
     }
 
+    // Assignment operator
     Triangle& operator=(const Triangle& other) {
         Center = other.Center;
         Side = other.Side;
@@ -23,6 +23,7 @@ struct Triangle {
     }
 };
 
+// Operator of printing triangle coordinates
 template <class T>
 std::ostream& operator << (std::ostream& cout, const Triangle<T> &object) {
     double height = object.Side * sqrt(3) / 2.0;

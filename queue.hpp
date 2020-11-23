@@ -45,7 +45,7 @@ struct Node {
 
     friend void operator++<>(std::shared_ptr<Node<T>> &node);
 
-    friend bool operator==<>(const Node<T> &left_value, const Node<T> &right_value);
+    friend bool operator!=<>(const Node<T> &left_value, const Node<T> &right_value);
 
     friend bool operator==<>(const Node<T> &left_value, const Node<T> &right_value);
 
@@ -143,35 +143,35 @@ public:
     }
 
     void Insert(Queue<T>::QueueIterator &iter, const T &elem) {
-        std::unique_ptr<Node<T>> newNode {new Node<T>(elem)};
-        std::shared_ptr<Node<T>> newPtr = std::move(newNode);
-        std::shared_ptr<Node<T>> nextPtr = First;
+        std::unique_ptr<Node<T>> new_node {new Node<T>(elem)};
+        std::shared_ptr<Node<T>> new_pointer = std::move(new_node);
+        std::shared_ptr<Node<T>> next_pointer = First;
         if (*iter == *First) {
-            newPtr->Next = First;
-            First = newPtr;
+            new_pointer->Next = First;
+            First = new_pointer;
         }
-        else if (nextPtr) {
+        else if (next_pointer) {
             if (!iter.IsNull()) {
-                while(*nextPtr->Next != *iter) {
-                    ++nextPtr;
+                while(*next_pointer->Next != *iter) {
+                    ++next_pointer;
                 }
             }
             else {
-                while (nextPtr->Next != nullptr) {
-                    ++nextPtr;
+                while (new_pointer->Next != nullptr) {
+                    ++next_pointer;
                 }
             }
-            if (nextPtr->Next == nullptr) {
-                nextPtr->Next = newPtr;
-                Last = newPtr;
+            if (next_pointer->Next == nullptr) {
+                next_pointer->Next = new_pointer;
+                Last = new_pointer;
             }
             else {
-                newPtr->Next = nextPtr->Next;
-                nextPtr->Next = newPtr;
+                new_pointer->Next = next_pointer->Next;
+                next_pointer->Next = new_pointer;
             }
         }
         else {
-            First = newPtr;
+            First = new_pointer;
         }
         ++Size;
     }
